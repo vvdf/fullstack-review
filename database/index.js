@@ -14,11 +14,13 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (repoArray) => {
-  // TODO: Your code here
+let save = (repoArray, callback = null) => {
   // This function should save a repo or repos to
   // the MongoDB
-  
+  repoArray.forEach((repo, key) => {
+    console.log(key, Object.keys(repo));
+    // Repo.create();
+  });
 }
 
 module.exports.save = save;

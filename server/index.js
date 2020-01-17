@@ -14,10 +14,16 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   var userName = req.body;
   getReposByUsername(userName, (err, data) => {
-    console.log(err, data);
+    var repos = JSON.parse(data);
+    var responseMessage = err ? 'User not found' : 'Success'
+    if (err) {
+      // console.log(err);
+      res.status(500).send(responseMessage);
+    } else {
+      save(repos.items);
+      res.status(200).send(responseMessage);
+    }
   });
-  console.log(req.body, req.url);
-  res.status(200).send('Received');
 });
 
 app.get('/repos', function (req, res) {

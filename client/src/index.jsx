@@ -15,7 +15,15 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    // TODO
+    var objectToSend = { searchTerm: term };
+    $.ajax({
+      type: 'POST',
+      url: '/repos',
+      contentType: 'text/plain',
+      data: term,
+      success: (data) => console.log('Successful Post', data),
+      error: (err) => console.log('Something went wrong', err)
+    });
   }
 
   render () {

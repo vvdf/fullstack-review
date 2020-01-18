@@ -15,13 +15,18 @@ app.post('/repos', function (req, res) {
   var userName = req.body;
   getReposByUsername(userName, (err, data) => {
     var repos = JSON.parse(data);
-    var responseMessage = err ? 'User not found' : 'Success'
+    var responseMessage = err ? 'User not found' : 'User found'
     if (err) {
       // console.log(err);
-      res.status(500).send(responseMessage);
+      res.status(400).send(responseMessage);
     } else {
-      save(repos.items);
-      res.status(200).send(responseMessage);
+      save(repos.items, (err) => {
+        if (err) {
+          res.status(500).send(responseMessage + ', Database Error');
+        } else {
+          res.status(200).send(responseMessage);
+        }
+      });
     }
   });
 });

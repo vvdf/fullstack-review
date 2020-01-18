@@ -14,12 +14,36 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (repoArray, callback = null) => {
+let save = (repoArray, callback) => {
   // This function should save a repo or repos to
   // the MongoDB
+  let itemsCreated = 0;
+
   repoArray.forEach((repo, key) => {
-    console.log(key, Object.keys(repo));
-    // Repo.create();
+    let repoDoc = {
+      id: repo.id,
+      name: repo.name,
+      owner: { userId: repo.owner.id, userName: repo.owner.login },
+      url: repo.html_url,
+      description: repo.description,
+      createdAt: repo.created_at,
+      updatedAt: repo.updated_at,
+      language: repo.language
+    };
+
+    Repo.create(repoDoc, (err) => {
+      if (err) {
+        callback(err);
+      } else {
+        itemsCreated++;
+        console.log("Successful DB Entry Added: ", repoDoc.name);
+
+        if(itemsCreated === repoArray.length - 1) {
+          callback(null);
+        }
+      }
+    });
+
   });
 }
 

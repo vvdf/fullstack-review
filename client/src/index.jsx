@@ -10,7 +10,28 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
+  }
 
+  componentDidMount() {
+    this.retrieveRepos();
+  }
+
+  updateRepoList(repos) {
+    console.log(Object.keys(repos[0]));
+    this.setState({
+      repos: repos
+    });
+  }
+
+  retrieveRepos() {
+    $.ajax({
+      type: 'GET',
+      url: '/repos',
+      data: {}, // data sent to server, build this to send specific filters/sorts
+      success: (data) => this.updateRepoList(data),
+      error: (err) => console.log(err),
+      dataTypes: 'application/json'
+    });
   }
 
   search (term) {

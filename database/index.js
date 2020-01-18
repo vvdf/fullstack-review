@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+mongoose.set('useFindAndModify', false);
 
 let repoSchema = mongoose.Schema({
   id: Number,
@@ -17,7 +18,6 @@ let Repo = mongoose.model('Repo', repoSchema);
 let save = (repoArray, callback) => {
   // This function should save a repo or repos to
   // the MongoDB
-  let itemsCreated = 0;
 
   repoArray.forEach((repo, key) => {
     let repoDoc = {
@@ -40,10 +40,9 @@ let save = (repoArray, callback) => {
         if (err) {
           callback(err);
         } else {
-          itemsCreated++;
           console.log("Successful DB Entry Made: ", repoDoc.name);
 
-          if(itemsCreated === repoArray.length - 1) {
+          if(key === repoArray.length - 1) {
             callback(null);
           }
         }
@@ -52,4 +51,26 @@ let save = (repoArray, callback) => {
   });
 }
 
+let load = (filterOptions, callback) => {
+  // function should call the top 25 according to some filter
+  // from database and return it to the front end
+  var queryOptions = {
+    limit: 25
+  };
+
+  filterOptions = filterOptions ? filterOptions : {
+    name: '*'
+  };
+
+  // filter, 'projection', options, callback
+  Repo.find({ 'owner.userName': '7FFF00'}, null, queryOptions, (err, data) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, data);
+    }
+  });
+};
+
 module.exports.save = save;
+module.exports.load = load;

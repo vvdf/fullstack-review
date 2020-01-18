@@ -3,24 +3,49 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import FakeConsole from './components/FakeConsole.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      repos: []
+      repos: [],
+      consoleText: ''
     }
   }
 
   componentDidMount() {
     this.retrieveRepos();
+    setInterval(this.fakeConsoleBorderAnimation, 500);
   }
 
   updateRepoList(repos) {
-    console.log(Object.keys(repos[0]));
     this.setState({
       repos: repos
     });
+    this.fakeConsoleLog('Repos retrieved');
+  }
+
+  fakeConsoleBorderAnimation() {
+    let fakeConsole = document.getElementById('console');
+    if (fakeConsole.className === 'cursor') {
+      fakeConsole.className = '';
+    } else {
+      fakeConsole.className = 'cursor';
+    }
+  }
+
+  fakeConsoleLog(text) {
+    // beep();
+    let typingInterval = 100; // in ms
+    for(var i = 0; i < text.length; i++) {
+      let displayText = text.substr(0, i + 1);
+      setTimeout(() => {
+        this.setState({
+        consoleText: displayText});
+        // beep();
+      }, typingInterval * i);
+    }
   }
 
   retrieveRepos() {
@@ -35,7 +60,7 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was searched`);
+    this.fakeConsoleLog(`INSERT INTO repos (id, name, url, owner, createdAt, updatedAt, description) VALUES (...${term})`);
     var objectToSend = { searchTerm: term };
     $.ajax({
       type: 'POST',
@@ -57,6 +82,7 @@ class App extends React.Component {
       <div id="display">
         <RepoList repos={this.state.repos}/>
       </div>
+      <FakeConsole text={this.state.consoleText}/>
     </div>
     )
   }

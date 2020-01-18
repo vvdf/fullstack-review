@@ -1,13 +1,28 @@
+@font-face {
+  font-family: 'terminus';
+  src: url('TerminusBold.ttf') format('truetype');
+}
+
 body {
   background-color: black;
-  color: grey;
-  font-family: Noto, mono;
+  color: #20FF20;
+  font-family: 'terminus';
+  font-size: 12;
 }
 
 a {
   text-decoration: none;
-  color: grey;
+  color: #20FF20;
 }
+
+input {
+  border: none;
+  font-family: 'terminus';
+  font-weight: bold;
+  color: #20FF20;
+  background-color: black;
+}
+
 
 #main {
   display: flex;
@@ -19,7 +34,29 @@ a {
   width: 300px;
 }
 
+#console {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.cursor {
+  border-right: solid 2px #20FF20;
+}
+
+.inputBox {
+  border-bottom: solid 1px #20FF20;
+}
+
 .sidebarElement {
+  display: flex;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.row {
   display: flex;
 }
 
@@ -50,4 +87,9 @@ a {
 
 .created {
   width: 120px;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
 }

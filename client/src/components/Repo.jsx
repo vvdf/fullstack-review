@@ -1,15 +1,11 @@
 import React from 'react';
 import Cell from './Cell.jsx';
 
-let divStyle = {
-  display: 'flex'
-}
-
 const Repo = (props) => {
   let userUrl = 'https://github.com/' + props.repo.owner.userName;
 
   return (
-  <div className="row" style={divStyle}>
+  <div className="row">
     <Cell className={'cell' + ' ' + 'user'} item={props.repo.owner.userName} url={userUrl}/>
     <Cell className={'cell' + ' ' + 'name'} item={props.repo.name} url={props.repo.url}/>
     <Cell className={'cell' + ' ' + 'language'} item={props.repo.language}/>

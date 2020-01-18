@@ -2,7 +2,7 @@ import React from 'react';
 import Cell from './Cell.jsx';
 
 const Repo = (props) => {
-  let userUrl = 'https://github.com/' + props.repo.owner.userName;
+  let userUrl = props.repo.url ? 'https://github.com/' + props.repo.owner.userName : '';
 
   return (
   <div className="row">

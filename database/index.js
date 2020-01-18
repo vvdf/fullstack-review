@@ -31,17 +31,22 @@ let save = (repoArray, callback) => {
       language: repo.language
     };
 
-    Repo.create(repoDoc, (err) => {
-      if (err) {
-        callback(err);
-      } else {
-        itemsCreated++;
-        console.log("Successful DB Entry Added: ", repoDoc.name);
+    // check database for entry to be updated, else create
+    Repo.findOneAndUpdate(
+      { id: repoDoc.id }, 
+      repoDoc,
+      { upsert: true },
+      (err) => {
+        if (err) {
+          callback(err);
+        } else {
+          itemsCreated++;
+          console.log("Successful DB Entry Made: ", repoDoc.name);
 
-        if(itemsCreated === repoArray.length - 1) {
-          callback(null);
+          if(itemsCreated === repoArray.length - 1) {
+            callback(null);
+          }
         }
-      }
     });
 
   });

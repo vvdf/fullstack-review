@@ -1,3 +1,27 @@
+body {
+  background-color: black;
+  color: grey;
+  font-family: Noto, mono;
+}
+
+a {
+  text-decoration: none;
+  color: grey;
+}
+
+#main {
+  display: flex;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.sidebarElement {
+  display: flex;
+}
 
 .cell {
   overflow: hidden;
@@ -5,11 +29,11 @@
 }
 
 .user {
-  width: 120px;
+  width: 150px;
 }
 
 .name {
-  width: 200px;
+  width: 350px;
 }
 
 .url {

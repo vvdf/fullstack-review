@@ -34,7 +34,6 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   //  respond with repos from database
   load(null, (err, data) => {
-    console.log(err, data);
     res.status(200).send(data);
   });
 });

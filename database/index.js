@@ -51,19 +51,16 @@ let save = (repoArray, callback) => {
   });
 }
 
-let load = (filterOptions, callback) => {
+let load = (filterOptions = {}, callback) => {
   // function should call the top 25 according to some filter
   // from database and return it to the front end
   var queryOptions = {
+    sort: { 'owner.userName': 1 },
     limit: 25
   };
 
-  filterOptions = filterOptions ? filterOptions : {
-    name: '*'
-  };
-
   // filter, 'projection', options, callback
-  Repo.find({ 'owner.userName': '7FFF00'}, null, queryOptions, (err, data) => {
+  Repo.find(filterOptions, null, queryOptions, (err, data) => {
     if (err) {
       callback(err);
     } else {
